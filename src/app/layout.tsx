@@ -22,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="es" className="dark scroll-smooth">
       <body className={`${outfit.variable} antialiased bg-background text-foreground min-h-screen flex flex-col`}>
+        <ActiveBackground />
         <Navbar />
         <main className="flex-grow pt-20">
           {children}
