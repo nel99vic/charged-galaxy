@@ -1,63 +1,47 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, useSpring, useMotionValue, useTransform } from "framer-motion";
+import { useScroll, useTransform, motion } from "framer-motion";
+import { useRef } from "react";
 
 export default function ActiveBackground() {
-    const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+    const ref = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["start start", "end end"]
+    });
 
-    // Motion values for mouse position
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
+    // Parallax Effect: Background moves slower than content, creating depth
+    const y = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
-    // Smooth spring animation for the background movement
-    const springConfig = { damping: 25, stiffness: 50 };
-    const x = useSpring(useTransform(mouseX, [0, windowSize.width], [20, -20]), springConfig);
-    const y = useSpring(useTransform(mouseY, [0, windowSize.height], [20, -20]), springConfig);
-
-    useEffect(() => {
-        // Set initial window size
-        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-
-        const handleResize = () => {
-            setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-        };
-
-        const handleMouseMove = (e: MouseEvent) => {
-            mouseX.set(e.clientX);
-            mouseY.set(e.clientY);
-        };
-
-        window.addEventListener("resize", handleResize);
-        window.addEventListener("mousemove", handleMouseMove);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-            window.removeEventListener("mousemove", handleMouseMove);
-        };
-    }, [mouseX, mouseY]);
-
+    // Continuous Cinematic Scale Effect (Breathing)
+    // We use standard CSS keyframes for the infinite loop as it's more performant for background
     return (
-        <>
+        <div ref={ref} className="fixed inset-0 z-[-2] overflow-hidden pointer-events-none h-screen w-screen">
             <motion.div
-                style={{ x, y }}
-                className="fixed inset-[-50px] z-[-2] pointer-events-none"
+                style={{ y }}
+                className="relative w-full h-[120%] -top-[10%]" // Extra height for parallax movement
             >
                 <div
-                    className="w-full h-full bg-no-repeat"
+                    className="w-full h-full bg-cover bg-center animate-cinematic-pan"
                     style={{
                         backgroundImage: "url('/images/custom-bg.jpg')",
-                        // 'cover' ensures it fills the screen, 'center top' focuses on the person's face/body usually in the upper half
                         backgroundSize: "cover",
                         backgroundPosition: "center top",
-                        filter: "brightness(0.9) saturate(1.2)" // Keeps it bright but slightly dimmed for text contrast
+                        filter: "brightness(0.85) saturate(1.3) contrast(1.1)", // High contrast for "Marketing Impact"
                     }}
                 />
             </motion.div>
 
-            {/* Digital Overlay - VERY transparent to let image show */}
-            <div className="fixed inset-0 z-[-1] pointer-events-none bg-black/30" />
-            <div className="fixed inset-0 z-[-1] pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_2px,3px_100%] pointer-events-none opacity-50" />
-        </>
+            {/* Cinematic Digital Overlays */}
+
+            {/* 1. Vignette for focus */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)] z-[-1]" />
+
+            {/* 2. Cyber Grid (moving) */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(189,0,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(189,0,255,0.05)_1px,transparent_1px)] bg-[length:100px_100px] [transform:perspective(500px)_rotateX(60deg)] origin-top z-[-1] opacity-30" />
+
+            {/* 3. Subtle noise/grain for realism */}
+            <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+        </div>
     );
 }
