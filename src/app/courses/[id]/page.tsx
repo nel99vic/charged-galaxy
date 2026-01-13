@@ -53,91 +53,93 @@ export default function CourseViewerPage() {
             </div>
 
             {/* Content Area */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="max-w-7xl mx-auto p-4 md:p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                {/* Left Column: Info */}
-                <div className="lg:col-span-2 space-y-8">
-                    <div>
-                        <h1 className="text-3xl font-bold text-white mb-2">{course.title}</h1>
-                        <p className="text-gray-400">{course.description}</p>
+                    {/* Main Content (Player) */}
+                    <div className="lg:col-span-2 space-y-6">
+
+                        <div className="relative aspect-video bg-black/50 rounded-2xl overflow-hidden border border-neon-cyan/30 shadow-[0_0_40px_rgba(0,255,255,0.1)] group">
+                            <h1 className="text-3xl font-bold text-white mb-2">{course.title}</h1>
+                            <p className="text-gray-400">{course.description}</p>
+                        </div>
+
+                        {/* Tools/Tabs */}
+                        <div className="flex border-b border-white/10 space-x-6">
+                            <button
+                                onClick={() => setActiveTab("content")}
+                                className={`pb-4 text-sm font-bold uppercase tracking-wide border-b-2 transition-colors ${activeTab === 'content' ? 'border-neon-pink text-neon-pink' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+                            >
+                                Contenido del Curso
+                            </button>
+                            <button
+                                onClick={() => setActiveTab("materials")}
+                                className={`pb-4 text-sm font-bold uppercase tracking-wide border-b-2 transition-colors ${activeTab === 'materials' ? 'border-neon-cyan text-neon-cyan' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
+                            >
+                                Materiales y Recursos
+                            </button>
+                        </div>
+
+                        {activeTab === "content" ? (
+                            <div className="space-y-4">
+                                {[1, 2, 3, 4, 5].map((lesson) => (
+                                    <div key={lesson} className="flex items-center p-4 rounded-lg bg-white/5 border border-white/5 hover:border-white/20 transition-colors cursor-pointer group">
+                                        <div className="mr-4 text-gray-500 group-hover:text-neon-cyan">
+                                            {lesson === 1 ? <Play size={20} /> : <Lock size={20} />}
+                                        </div>
+                                        <div className="flex-grow">
+                                            <h4 className="text-white font-medium group-hover:text-neon-cyan transition-colors">Lección {lesson}: Fundamentos de la Técnica</h4>
+                                            <span className="text-xs text-gray-500">15:30 min</span>
+                                        </div>
+                                        {lesson === 1 && <div className="px-2 py-1 bg-neon-cyan/20 text-neon-cyan text-[10px] rounded uppercase font-bold">Reproduciendo</div>}
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center space-x-4">
+                                    <div className="p-3 bg-neon-purple/20 rounded-lg text-neon-purple"><FileText size={24} /></div>
+                                    <div>
+                                        <h4 className="text-white font-bold">Lista de Materiales.pdf</h4>
+                                        <p className="text-xs text-gray-400">2.5 MB</p>
+                                    </div>
+                                    <button className="ml-auto text-gray-400 hover:text-white"><Download size={20} /></button>
+                                </div>
+                                <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center space-x-4">
+                                    <div className="p-3 bg-neon-lime/20 rounded-lg text-neon-lime"><FileText size={24} /></div>
+                                    <div>
+                                        <h4 className="text-white font-bold">Guía de Precios.xlsx</h4>
+                                        <p className="text-xs text-gray-400">1.2 MB</p>
+                                    </div>
+                                    <button className="ml-auto text-gray-400 hover:text-white"><Download size={20} /></button>
+                                </div>
+                            </div>
+                        )}
+
                     </div>
 
-                    {/* Tools/Tabs */}
-                    <div className="flex border-b border-white/10 space-x-6">
-                        <button
-                            onClick={() => setActiveTab("content")}
-                            className={`pb-4 text-sm font-bold uppercase tracking-wide border-b-2 transition-colors ${activeTab === 'content' ? 'border-neon-pink text-neon-pink' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
-                        >
-                            Contenido del Curso
-                        </button>
-                        <button
-                            onClick={() => setActiveTab("materials")}
-                            className={`pb-4 text-sm font-bold uppercase tracking-wide border-b-2 transition-colors ${activeTab === 'materials' ? 'border-neon-cyan text-neon-cyan' : 'border-transparent text-gray-500 hover:text-gray-300'}`}
-                        >
-                            Materiales y Recursos
-                        </button>
-                    </div>
+                    {/* Sidebar */}
+                    <div className="space-y-6">
+                        <div className="glass-panel p-6 rounded-xl">
+                            <h3 className="text-white font-bold mb-4">Tu Progreso</h3>
+                            <div className="w-full bg-gray-800 h-2 rounded-full mb-2">
+                                <div className="bg-neon-lime h-full w-[15%] rounded-full shadow-[0_0_10px_var(--neon-lime)]" />
+                            </div>
+                            <p className="text-xs text-gray-400 flex justify-between">
+                                <span>15% Completado</span>
+                                <span>2/12 Lecciones</span>
+                            </p>
+                        </div>
 
-                    {activeTab === "content" ? (
-                        <div className="space-y-4">
-                            {[1, 2, 3, 4, 5].map((lesson) => (
-                                <div key={lesson} className="flex items-center p-4 rounded-lg bg-white/5 border border-white/5 hover:border-white/20 transition-colors cursor-pointer group">
-                                    <div className="mr-4 text-gray-500 group-hover:text-neon-cyan">
-                                        {lesson === 1 ? <Play size={20} /> : <Lock size={20} />}
-                                    </div>
-                                    <div className="flex-grow">
-                                        <h4 className="text-white font-medium group-hover:text-neon-cyan transition-colors">Lección {lesson}: Fundamentos de la Técnica</h4>
-                                        <span className="text-xs text-gray-500">15:30 min</span>
-                                    </div>
-                                    {lesson === 1 && <div className="px-2 py-1 bg-neon-cyan/20 text-neon-cyan text-[10px] rounded uppercase font-bold">Reproduciendo</div>}
-                                </div>
-                            ))}
+                        <div className="glass-panel p-6 rounded-xl space-y-4">
+                            <button className="w-full py-3 bg-white/5 hover:bg-white/10 text-white rounded-lg flex items-center justify-center space-x-2 border border-white/10">
+                                <Share2 size={18} />
+                                <span>Compartir Curso</span>
+                            </button>
                         </div>
-                    ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center space-x-4">
-                                <div className="p-3 bg-neon-purple/20 rounded-lg text-neon-purple"><FileText size={24} /></div>
-                                <div>
-                                    <h4 className="text-white font-bold">Lista de Materiales.pdf</h4>
-                                    <p className="text-xs text-gray-400">2.5 MB</p>
-                                </div>
-                                <button className="ml-auto text-gray-400 hover:text-white"><Download size={20} /></button>
-                            </div>
-                            <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center space-x-4">
-                                <div className="p-3 bg-neon-lime/20 rounded-lg text-neon-lime"><FileText size={24} /></div>
-                                <div>
-                                    <h4 className="text-white font-bold">Guía de Precios.xlsx</h4>
-                                    <p className="text-xs text-gray-400">1.2 MB</p>
-                                </div>
-                                <button className="ml-auto text-gray-400 hover:text-white"><Download size={20} /></button>
-                            </div>
-                        </div>
-                    )}
+                    </div>
 
                 </div>
-
-                {/* Sidebar */}
-                <div className="space-y-6">
-                    <div className="glass-panel p-6 rounded-xl">
-                        <h3 className="text-white font-bold mb-4">Tu Progreso</h3>
-                        <div className="w-full bg-gray-800 h-2 rounded-full mb-2">
-                            <div className="bg-neon-lime h-full w-[15%] rounded-full shadow-[0_0_10px_var(--neon-lime)]" />
-                        </div>
-                        <p className="text-xs text-gray-400 flex justify-between">
-                            <span>15% Completado</span>
-                            <span>2/12 Lecciones</span>
-                        </p>
-                    </div>
-
-                    <div className="glass-panel p-6 rounded-xl space-y-4">
-                        <button className="w-full py-3 bg-white/5 hover:bg-white/10 text-white rounded-lg flex items-center justify-center space-x-2 border border-white/10">
-                            <Share2 size={18} />
-                            <span>Compartir Curso</span>
-                        </button>
-                    </div>
-                </div>
-
             </div>
-        </div>
-    );
+            );
 }

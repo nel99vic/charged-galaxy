@@ -44,17 +44,20 @@ export default function ActiveBackground() {
                 className="fixed inset-[-50px] z-[-2] pointer-events-none"
             >
                 <div
-                    className="w-full h-full bg-cover bg-center"
+                    className="w-full h-full bg-no-repeat"
                     style={{
                         backgroundImage: "url('/images/custom-bg.jpg')",
-                        filter: "saturate(1.5) contrast(1.2) brightness(0.8)" // More visible as requested ("impacte")
+                        // 'cover' ensures it fills the screen, 'center top' focuses on the person's face/body usually in the upper half
+                        backgroundSize: "cover",
+                        backgroundPosition: "center top",
+                        filter: "brightness(0.9) saturate(1.2)" // Keeps it bright but slightly dimmed for text contrast
                     }}
                 />
             </motion.div>
 
-            {/* Digital Overlay - Thinner/Lighter layer to let image show through more */}
-            <div className="fixed inset-0 z-[-1] pointer-events-none bg-black/60 mix-blend-multiply" />
-            <div className="fixed inset-0 z-[-1] pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_2px,3px_100%] pointer-events-none" />
+            {/* Digital Overlay - VERY transparent to let image show */}
+            <div className="fixed inset-0 z-[-1] pointer-events-none bg-black/30" />
+            <div className="fixed inset-0 z-[-1] pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_2px,3px_100%] pointer-events-none opacity-50" />
         </>
     );
 }

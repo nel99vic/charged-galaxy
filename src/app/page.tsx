@@ -83,7 +83,7 @@ export default function Home() {
       </section>
 
       {/* Video Brand Section */}
-      <section className="py-20 bg-black relative overflow-hidden">
+      <section className="py-20 bg-transparent relative overflow-hidden">
         <div className="absolute inset-0 bg-neon-purple/5 opacity-20" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-5xl font-black text-white mb-12 tracking-tighter">
@@ -105,8 +105,16 @@ export default function Home() {
       </section>
 
       {/* FEATURES GRID (Glassmorphism) */}
-      <section className="py-24 bg-[#050505]">
+      <section className="py-24 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neon-cyan to-neon-purple mb-4">
+              ¿Por qué Charged Galaxy?
+            </h2>
+            <p className="text-gray-300 max-w-2xl mx-auto text-lg backdrop-blur-sm bg-black/30 p-2 rounded-lg">
+              No solo enseñamos a inflar globos. Enseñamos a crear imperios creativos.
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
             {/* Feature 1 */}
