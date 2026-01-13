@@ -141,5 +141,6 @@ export default function CourseViewerPage() {
 
                 </div>
             </div>
-            );
+        </div>
+    );
 }
