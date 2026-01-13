@@ -27,16 +27,50 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  
+
   --shadow-neon-pink: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
   --shadow-neon-cyan: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  position: relative;
+  min-height: 100vh;
   overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background-image: url('/images/custom-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  filter: saturate(1.2) contrast(1.1);
+  /* Enhance the 'digital' feel */
+}
+
+/* Digital Overlay - Gradient + Subtle Grid */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background:
+    linear-gradient(to bottom, rgba(5, 5, 5, 0.85), rgba(5, 5, 5, 0.95)),
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(189, 0, 255, 0.03) 3px);
+  /* Subtle scanline effect */
+  pointer-events: none;
 }
 
 /* Glassmorphism Utilities */
